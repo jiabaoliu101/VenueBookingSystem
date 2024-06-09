@@ -1,0 +1,65 @@
+body {
+    font-family: 'Arial', sans-serif; /* 统一字体 */
+    background-color: #f7f7f7; /* 背景颜色与主页一致 */
+    margin: 0;
+    padding: 20px; /* 为整个页面添加一些内边距 */
+}
+
+.container {
+    background: #fff; /* 内容背景为白色 */
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* 控制最大宽度 */
+    margin: 50px auto; /* 水平居中显示 */
+}
+
+h2 {
+    text-align: left; /* 标题左对齐 */
+    color: #333;
+    font-size: 24px; /* 增加字体大小提升清晰度 */
+    margin-bottom: 20px; /* 增加与表单的间距 */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="text"], input[type="password"], input[type="email"], input[type="submit"] {
+    padding: 12px; /* 稍微减少填充，如果觉得太拥挤 */
+    margin-bottom: 15px; /* 减少一些间距 */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50; /* 提交按钮的背景颜色 */
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049; /* 鼠标悬停时更改背景颜色 */
+}
+
+.message {
+    color: #d9534f; /* 错误消息颜色 */
+    margin-bottom: 20px; /* 增加消息与表单的距离 */
+}
+
+/* 响应式布局 */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+        margin-top: 20px; /* 在小屏幕上减少顶部间距 */
+    }
+
+    h2 {
+        font-size: 20px; /* 在小屏幕上减小字体大小 */
+    }
+}
