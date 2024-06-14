@@ -134,9 +134,9 @@
     <nav class="navbar">
         <ul>
             <li><a href="#">首页</a></li>
-            <li><a href="#">预定球场</a></li>
+            <li><a href="viewBookings.jsp">预定信息</a></li>
             <li><a href="booking.jsp">场馆预约</a></li>
-            <li><a href="#">联系我们</a></li>
+            <li><a href="report.jsp">联系我们</a></li>
             <% if (session.getAttribute("user") == null) { %>
             <li><a href="login.jsp">登录</a></li>
             <li><a href="register.jsp">注册</a></li>

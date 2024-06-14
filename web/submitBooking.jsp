@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
+<%@ page import="java.time.LocalTime" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,10 +11,21 @@
 </head>
 <body>
 <%
+
   // 检查用户是否已登录
   if (session.getAttribute("user") == null) {
     response.sendRedirect("login.jsp");
     return;
+  }
+
+  // 从 session 中获取用户的联系电话
+  String contact = (String) session.getAttribute("contact");
+
+  //查看是否正确返回 session 的contact
+  System.out.println("Session中的contact信息: " + session.getAttribute("contact"));
+
+  if (session.getAttribute("contact") == null) {
+    System.out.println("没有从session中找到contact信息。");
   }
 
   // 获取提交的预订数据
@@ -31,8 +44,9 @@
       Class.forName("com.mysql.cj.jdbc.Driver");
       conn = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
 
-      String sql = "INSERT INTO Bookings (venue_id, booking_date, booking_time, status, price) VALUES (?, ?, ?, ?, ?)";
+      String sql = "INSERT INTO Bookings (venue_id, booking_date, booking_time, status, price, contact) VALUES (?, ?, ?, ?, ?, ?)";
       pstmt = conn.prepareStatement(sql);
+
 
       for (String booking : bookings) {
         String[] parts = booking.split(",");
@@ -44,6 +58,7 @@
         pstmt.setTime(3, java.sql.Time.valueOf(bookingTime));
         pstmt.setString(4, "booked");
         pstmt.setDouble(5, 60.0);
+        pstmt.setString(6, contact);
         pstmt.addBatch();
       }
 

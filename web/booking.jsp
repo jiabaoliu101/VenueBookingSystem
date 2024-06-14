@@ -8,6 +8,7 @@
     <title>场馆预约</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <style>
+        /* 样式定义 */
         body {
             font-family: Arial, sans-serif;
             background-color: #f7f7f7;
@@ -96,14 +97,25 @@
 
     // 获取选择的日期，默认今天
     String selectedDate = request.getParameter("selectedDate");
+    // 如果用户没有选择日期或者选择的日期为空白，则使用今天的日期
     if (selectedDate == null || selectedDate.trim().isEmpty()) {
         selectedDate = java.time.LocalDate.now().toString();
+    }
+
+    // 从 session 中获取用户的联系电话
+    String contact = (String) session.getAttribute("contact");
+
+    System.out.println("Session中的contact信息: " + session.getAttribute("contact"));
+    if (session.getAttribute("contact") == null) {
+        System.out.println("没有从session中找到contact信息。");
     }
 %>
 <header>
     <h1>场馆预约</h1>
+
 </header>
 <main>
+<%--  使用了CSS类date-picker定义一个日期选择器--%>
     <div class="date-picker">
         <form method="get" action="booking.jsp">
             <label for="selectedDate">选择日期:</label>
@@ -127,9 +139,12 @@
                         String jdbcUsername = "root";
                         String jdbcPassword = "12345678";
 
+                        // 加载数据库驱动
                         Class.forName("com.mysql.cj.jdbc.Driver");
+                        // 连接数据库
                         conn = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
 
+                        // 查询场馆信息
                         String sql = "SELECT * FROM Venues";
                         pstmt = conn.prepareStatement(sql);
                         rs = pstmt.executeQuery();
@@ -142,6 +157,7 @@
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
+                        // 关闭资源
                         if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
                         if (pstmt != null) try { pstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
                         if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
@@ -157,6 +173,7 @@
                     currentPage = Integer.parseInt(request.getParameter("page"));
 
                 try {
+                    // 重新连接数据库
                     conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/VenueBookingSystemNew?useSSL=false&characterEncoding=UTF-8", "root", "12345678");
                     String sql = "SELECT * FROM Bookings WHERE booking_date = ? LIMIT ?, ?";
                     pstmt = conn.prepareStatement(sql);
@@ -206,6 +223,7 @@
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
+                    // 关闭资源
                     if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
                     if (pstmt != null) try { pstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
                     if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
@@ -230,6 +248,7 @@
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            // 关闭资源
             if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
             if (pstmt != null) try { pstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
             if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
